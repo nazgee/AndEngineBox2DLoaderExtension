@@ -45,6 +45,9 @@ import eu.nazgee.box2dloader.stubs.StubEntity;
 public class Loader {
 
 	private final Parser mHandler;
+	private IPhysicsAwareEntityFactory mPhysicsAwareEntityFactory;
+	private IJointFactory mJointFactory;
+	private IBodyFactory mBodyFactory;
 
 	public Loader() {
 		mHandler = new Parser();
@@ -73,7 +76,12 @@ public class Loader {
 		return res;
 	}
 
-	public IPhysicsAwareEntity populatePhysicsAwareEntity(final String key, final IPhysicsAwareEntityFactory pFactory) {
+	public IPhysicsAwareEntity populatePhysicsAwareEntity(final String key) {
+		return populatePhysicsAwareEntity(key, getPhysicsAwareEntityFactory());
+	}
+
+	public IPhysicsAwareEntity populatePhysicsAwareEntity(final String key,
+			final IPhysicsAwareEntityFactory pFactory) {
 		// prepare stub for new physics aware entity
 		final IStubEntity stub = getEntityStub(key);
 
@@ -110,6 +118,9 @@ public class Loader {
 		return result;
 	}
 
+	public void addPhysics(final IPhysicsAwareEntity pEntityWithoutPhysics) {
+		addPhysics(pEntityWithoutPhysics, getBodyFactory(), getJointFactory());
+	}
 
 	public void addPhysics(final IPhysicsAwareEntity pEntityWithoutPhysics,
 			final IBodyFactory pBodyFactory,
@@ -186,5 +197,29 @@ public class Loader {
 				pJointFactory.getListener().onJointCreated(stub, joint, bodyA, bodyB);
 			}
 		}
+	}
+
+	public IPhysicsAwareEntityFactory getPhysicsAwareEntityFactory() {
+		return mPhysicsAwareEntityFactory;
+	}
+
+	public void setPhysicsAwareEntityFactory(IPhysicsAwareEntityFactory mPhysicsAwareEntityFactory) {
+		this.mPhysicsAwareEntityFactory = mPhysicsAwareEntityFactory;
+	}
+
+	public IJointFactory getJointFactory() {
+		return mJointFactory;
+	}
+
+	public void setJointFactory(IJointFactory mJointFactory) {
+		this.mJointFactory = mJointFactory;
+	}
+
+	public IBodyFactory getBodyFactory() {
+		return mBodyFactory;
+	}
+
+	public void setBodyFactory(IBodyFactory mBodyFactory) {
+		this.mBodyFactory = mBodyFactory;
 	}
 }
