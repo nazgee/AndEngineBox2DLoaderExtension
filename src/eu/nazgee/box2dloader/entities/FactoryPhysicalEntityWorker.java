@@ -5,8 +5,8 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import eu.nazgee.box2dloader.recipes.IRecipeEntity;
 import eu.nazgee.box2dloader.recipes.RecipeEntity;
 
-class FactoryWorkerPhysicsAwareEntity extends FactoryWorkerEntity {
-	public FactoryWorkerPhysicsAwareEntity(VertexBufferObjectManager pVBO, IFactoryWorkerEntity ... helpers) {
+class FactoryPhysicalEntityWorker extends FactoryPhysicalWorker {
+	public FactoryPhysicalEntityWorker(VertexBufferObjectManager pVBO, IFactoryPhysicalWorker ... helpers) {
 		super(pVBO, helpers);
 	}
 
@@ -16,9 +16,9 @@ class FactoryWorkerPhysicsAwareEntity extends FactoryWorkerEntity {
 	}
 
 	@Override
-	public IPhysicsAwareEntity build(IRecipeEntity pRecipe) {
+	public IPhysicalEntity build(IRecipeEntity pRecipe) {
 		RecipeEntity stub = ((RecipeEntity) pRecipe);
-		IPhysicsAwareEntity product = new PhysicsAwareEntity(stub, stub.getX(), stub.getY());
+		IPhysicalEntity product = new PhysicalEntity(stub, stub.getX(), stub.getY());
 		configure(pRecipe, product);
 		return product;
 	}

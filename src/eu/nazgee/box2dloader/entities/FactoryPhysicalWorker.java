@@ -7,22 +7,22 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import android.util.Log;
 import eu.nazgee.box2dloader.recipes.IRecipeEntity;
 
-public class FactoryWorkerEntity implements IFactoryWorkerEntity {
-	private final LinkedList<IFactoryWorkerEntity> mHelpers = new LinkedList<IFactoryWorkerEntity>();
+public class FactoryPhysicalWorker implements IFactoryPhysicalWorker {
+	private final LinkedList<IFactoryPhysicalWorker> mHelpers = new LinkedList<IFactoryPhysicalWorker>();
 	protected final VertexBufferObjectManager mVBO;
 
-	public FactoryWorkerEntity(VertexBufferObjectManager pVBO, IFactoryWorkerEntity ... helpers) {
+	public FactoryPhysicalWorker(VertexBufferObjectManager pVBO, IFactoryPhysicalWorker ... helpers) {
 		mVBO = pVBO;
-		for (IFactoryWorkerEntity helper : helpers) {
+		for (IFactoryPhysicalWorker helper : helpers) {
 			mHelpers.add(helper);
 		}
 	}
 
-	public void addHelperLast(IFactoryWorkerEntity pHelper) {
+	public void addHelperLast(IFactoryPhysicalWorker pHelper) {
 		mHelpers.addLast(pHelper);
 	}
 
-	public void addHelperFirs(IFactoryWorkerEntity pHelper) {
+	public void addHelperFirs(IFactoryPhysicalWorker pHelper) {
 		mHelpers.addFirst(pHelper);
 	}
 
@@ -32,13 +32,13 @@ public class FactoryWorkerEntity implements IFactoryWorkerEntity {
 	}
 
 	@Override
-	public IPhysicsAwareEntity build(final IRecipeEntity pRecipe) {
-		IPhysicsAwareEntity pae = helpersProduce(pRecipe);
+	public IPhysicalEntity build(final IRecipeEntity pRecipe) {
+		IPhysicalEntity pae = helpersProduce(pRecipe);
 		return pae;
 	}
 
 	protected boolean helpersUnderstandRecipe(final IRecipeEntity pRecipe) {
-		for (final IFactoryWorkerEntity helper : mHelpers) {
+		for (final IFactoryPhysicalWorker helper : mHelpers) {
 			if (helper.understandsRecipe(pRecipe)) {
 				return true;
 			}
@@ -46,9 +46,9 @@ public class FactoryWorkerEntity implements IFactoryWorkerEntity {
 		return false;
 	}
 
-	protected IPhysicsAwareEntity helpersProduce(final IRecipeEntity pRecipe) {
-		IPhysicsAwareEntity pae;
-		for (final IFactoryWorkerEntity helper : mHelpers) {
+	protected IPhysicalEntity helpersProduce(final IRecipeEntity pRecipe) {
+		IPhysicalEntity pae;
+		for (final IFactoryPhysicalWorker helper : mHelpers) {
 			if (!helper.understandsRecipe(pRecipe)) {
 				continue;
 			}
@@ -61,7 +61,7 @@ public class FactoryWorkerEntity implements IFactoryWorkerEntity {
 		return null;
 	}
 
-	protected void configure(IRecipeEntity pRecipe, IPhysicsAwareEntity product) {
+	protected void configure(IRecipeEntity pRecipe, IPhysicalEntity product) {
 		product.setRotation(pRecipe.getRotation());
 		product.setZIndex(pRecipe.getZindex());
 		product.setColor(pRecipe.getColorR(), pRecipe.getColorG(), pRecipe.getColorB());

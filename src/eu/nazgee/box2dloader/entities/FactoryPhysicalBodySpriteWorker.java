@@ -5,10 +5,10 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import eu.nazgee.box2dloader.recipes.IRecipeEntity;
 import eu.nazgee.box2dloader.recipes.RecipeBodySprite;
 
-class FactoryWorkerPhysicsAwareBodySprite extends FactoryWorkerEntity {
+class FactoryPhysicalBodySpriteWorker extends FactoryPhysicalWorker {
 	protected final ITextureRegionResolver mResolver;
 
-	public FactoryWorkerPhysicsAwareBodySprite(ITextureRegionResolver pResolver, VertexBufferObjectManager pVBO, IFactoryWorkerEntity ... helpers) {
+	public FactoryPhysicalBodySpriteWorker(ITextureRegionResolver pResolver, VertexBufferObjectManager pVBO, IFactoryPhysicalWorker ... helpers) {
 		super(pVBO, helpers);
 		this.mResolver = pResolver;
 	}
@@ -19,9 +19,9 @@ class FactoryWorkerPhysicsAwareBodySprite extends FactoryWorkerEntity {
 	}
 
 	@Override
-	public IPhysicsAwareEntity build(IRecipeEntity pRecipe) {
+	public IPhysicalEntity build(IRecipeEntity pRecipe) {
 		RecipeBodySprite stub = ((RecipeBodySprite) pRecipe);
-		IPhysicsAwareEntity product = new PhysicsAwareSprite(stub, stub.getX(), stub.getY(), mResolver.getTexture(stub.textureName), mVBO);
+		IPhysicalEntity product = new PhysicalSprite(stub, stub.getX(), stub.getY(), mResolver.getTexture(stub.textureName), mVBO);
 		configure(pRecipe, product);
 		return product;
 	}

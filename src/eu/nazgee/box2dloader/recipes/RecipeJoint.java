@@ -7,7 +7,7 @@ import org.xml.sax.Attributes;
 import com.badlogic.gdx.math.Vector2;
 
 import eu.nazgee.box2dloader.Consts;
-import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
+import eu.nazgee.box2dloader.entities.IPhysicalEntity;
 
 public abstract class RecipeJoint extends Recipe implements IRecipeJoint, Consts {
 
@@ -74,13 +74,13 @@ public abstract class RecipeJoint extends Recipe implements IRecipeJoint, Consts
 	}
 
 	@Override
-	public Vector2 getAnchorOfLocalBody(final Vector2 pReuse, final IPhysicsAwareEntity pEntity) {
+	public Vector2 getAnchorOfLocalBody(final Vector2 pReuse, final IPhysicalEntity pEntity) {
 		pReuse.set(	(pEntity.getWidth() / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT) * getX(),
 				(pEntity.getHeight() / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT) * getY());
 		return pReuse;
 	}
 
-	public Vector2 getAnchorOfRemoteBody(final Vector2 pReuse, final IPhysicsAwareEntity pLocalEntity, final IPhysicsAwareEntity pRemoteEntity) {
+	public Vector2 getAnchorOfRemoteBody(final Vector2 pReuse, final IPhysicalEntity pLocalEntity, final IPhysicalEntity pRemoteEntity) {
 		if (isDeriveRemoteXYfromLocalXY()) {
 			getAnchorOfLocalBody(pReuse, pLocalEntity);
 			pReuse.set(pLocalEntity.getBody().getWorldPoint(pReuse));

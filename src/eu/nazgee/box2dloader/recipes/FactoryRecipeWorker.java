@@ -6,20 +6,22 @@ import org.xml.sax.Attributes;
 
 import android.util.Log;
 
-public class FactoryRecipeParser implements IFactoryRecipeParser {
-	private final LinkedList<IFactoryRecipeParser> mHelpers = new LinkedList<IFactoryRecipeParser>();
+public class FactoryRecipeWorker implements IFactoryRecipeWorker {
+	private final LinkedList<IFactoryRecipeWorker> mHelpers = new LinkedList<IFactoryRecipeWorker>();
+	protected final IFactoryRecipe mFactory;
 
-	public FactoryRecipeParser(IFactoryRecipeParser ... helpers) {
-		for (IFactoryRecipeParser helper : helpers) {
+	public FactoryRecipeWorker(final IFactoryRecipe pFactory, IFactoryRecipeWorker ... helpers) {
+		mFactory = pFactory;
+		for (IFactoryRecipeWorker helper : helpers) {
 			mHelpers.add(helper);
 		}
 	}
 
-	public void addHelperLast(IFactoryRecipeParser pHelper) {
+	public void addHelperLast(IFactoryRecipeWorker pHelper) {
 		mHelpers.addLast(pHelper);
 	}
 
-	public void addHelperFirs(IFactoryRecipeParser pHelper) {
+	public void addHelperFirst(IFactoryRecipeWorker pHelper) {
 		mHelpers.addFirst(pHelper);
 	}
 
@@ -35,7 +37,7 @@ public class FactoryRecipeParser implements IFactoryRecipeParser {
 	}
 
 	protected boolean helpersUnderstandRecipe(String pRecipeName, final Attributes pAttributes) {
-		for (final IFactoryRecipeParser helper : mHelpers) {
+		for (final IFactoryRecipeWorker helper : mHelpers) {
 			if (helper.understandsRecipe(pRecipeName, pAttributes)) {
 				return true;
 			}
@@ -45,7 +47,7 @@ public class FactoryRecipeParser implements IFactoryRecipeParser {
 
 	protected IRecipe helpersProduce(String pRecipeName, Attributes pAttributes) {
 		IRecipe recipe;
-		for (final IFactoryRecipeParser helper : mHelpers) {
+		for (final IFactoryRecipeWorker helper : mHelpers) {
 			if (!helper.understandsRecipe(pRecipeName, pAttributes)) {
 				continue;
 			}

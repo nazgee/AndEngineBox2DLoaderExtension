@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.physics.box2d.Joint;
 
-import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
+import eu.nazgee.box2dloader.entities.IPhysicalEntity;
 import eu.nazgee.box2dloader.recipes.IRecipeJoint;
 
 public class FactoryJoint implements IFactoryJoint {
@@ -20,7 +20,7 @@ public class FactoryJoint implements IFactoryJoint {
 	}
 
 	@Override
-	public Joint produce(final IRecipeJoint pJointRecipe, IPhysicsAwareEntity pRecipeA, IPhysicsAwareEntity pRecipeB) {
+	public Joint produce(final IRecipeJoint pJointRecipe, IPhysicalEntity pRecipeA, IPhysicalEntity pRecipeB) {
 
 		if ((pRecipeA != null) && (pRecipeB != null)) {
 			final Joint joint = pJointRecipe.physicalize(mWorld, pRecipeA, pRecipeB);

@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 
-import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
+import eu.nazgee.box2dloader.entities.IPhysicalEntity;
 
 public class RecipeJointRope extends RecipeJoint {
 
@@ -26,8 +26,8 @@ public class RecipeJointRope extends RecipeJoint {
 
 	@Override
 	public Joint physicalize(	final PhysicsWorld pWorld,
-			final IPhysicsAwareEntity pLocal,
-			final IPhysicsAwareEntity pRemote) {
+			final IPhysicalEntity pLocal,
+			final IPhysicalEntity pRemote) {
 
 		final Vector2 v = Vector2Pool.obtain();
 

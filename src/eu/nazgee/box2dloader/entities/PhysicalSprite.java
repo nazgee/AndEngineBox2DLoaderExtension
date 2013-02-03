@@ -16,13 +16,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import eu.nazgee.box2dloader.recipes.IRecipeBody;
 import eu.nazgee.box2dloader.recipes.IRecipeEntity;
 
-public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
+public class PhysicalSprite extends Sprite implements IPhysicalEntity {
 
 	private PhysicsConnector mPhysicsConnector;
 	private final IRecipeEntity mB2DBodyDesc;
 	private Body mBody;
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
 			final ITextureRegion pTextureRegion,
 			final ISpriteVertexBufferObject pSpriteVertexBufferObject,
 			final ShaderProgram pShaderProgram) {
@@ -31,14 +31,14 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
 			final ITextureRegion pTextureRegion,
 			final ISpriteVertexBufferObject pSpriteVertexBufferObject) {
 		super(pX, pY, pWidth, pHeight, pTextureRegion, pSpriteVertexBufferObject);
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
 			final ITextureRegion pTextureRegion,
 			final VertexBufferObjectManager pVertexBufferObjectManager,
 			final DrawType pDrawType, final ShaderProgram pShaderProgram) {
@@ -47,7 +47,7 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
 			final ITextureRegion pTextureRegion,
 			final VertexBufferObjectManager pVertexBufferObjectManager,
 			final DrawType pDrawType) {
@@ -56,7 +56,7 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
 			final ITextureRegion pTextureRegion,
 			final VertexBufferObjectManager pVertexBufferObjectManager,
 			final ShaderProgram pShaderProgram) {
@@ -65,14 +65,14 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY, final float pWidth, final float pHeight,
 			final ITextureRegion pTextureRegion,
 			final VertexBufferObjectManager pVertexBufferObjectManager) {
 		super(pX, pY, pWidth, pHeight, pTextureRegion, pVertexBufferObjectManager);
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
 			final ITextureRegion pTextureRegion,
 			final ISpriteVertexBufferObject pVertexBufferObject,
 			final ShaderProgram pShaderProgram) {
@@ -80,14 +80,14 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
 			final ITextureRegion pTextureRegion,
 			final ISpriteVertexBufferObject pVertexBufferObject) {
 		super(pX, pY, pTextureRegion, pVertexBufferObject);
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
 			final ITextureRegion pTextureRegion,
 			final VertexBufferObjectManager pVertexBufferObjectManager,
 			final DrawType pDrawType, final ShaderProgram pShaderProgram) {
@@ -96,7 +96,7 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
 			final ITextureRegion pTextureRegion,
 			final VertexBufferObjectManager pVertexBufferObjectManager,
 			final DrawType pDrawType) {
@@ -104,7 +104,7 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
 			final ITextureRegion pTextureRegion,
 			final VertexBufferObjectManager pVertexBufferObjectManager,
 			final ShaderProgram pShaderProgram) {
@@ -112,7 +112,7 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		this.mB2DBodyDesc = pB2DBodyDesc;
 	}
 
-	public PhysicsAwareSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
+	public PhysicalSprite(final IRecipeEntity pB2DBodyDesc, final float pX, final float pY,
 			final ITextureRegion pTextureRegion,
 			final VertexBufferObjectManager pVertexBufferObjectManager) {
 		super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
@@ -154,8 +154,8 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 		callOnChildren(new IEntityParameterCallable() {
 			@Override
 			public void call(final IEntity pEntity) {
-				if (pEntity instanceof IPhysicsAwareEntity) {
-					final IPhysicsAwareEntity phys = (IPhysicsAwareEntity) pEntity;
+				if (pEntity instanceof IPhysicalEntity) {
+					final IPhysicalEntity phys = (IPhysicalEntity) pEntity;
 					phys.dispose(pWorld);
 				}
 			}

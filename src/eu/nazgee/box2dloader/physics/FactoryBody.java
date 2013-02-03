@@ -40,7 +40,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
-import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
+import eu.nazgee.box2dloader.entities.IPhysicalEntity;
 
 public class FactoryBody implements IFactoryBody {
 	private final HashMap<String, BodyTemplate> shapes = new HashMap<String, BodyTemplate>();
@@ -99,7 +99,7 @@ public class FactoryBody implements IFactoryBody {
 	}
 
 	@Override
-	public Body produce(String pBodyName, IPhysicsAwareEntity pEntity) {
+	public Body produce(String pBodyName, IPhysicalEntity pEntity) {
 
 //	public Body createBody(final String name, final IEntity pEntity,
 //			final PhysicsWorld pPhysicsWorld) {
@@ -160,7 +160,7 @@ public class FactoryBody implements IFactoryBody {
 		return boxBody;
 	}
 
-	protected void bindEntityToBody(IPhysicsAwareEntity pEntity,
+	protected void bindEntityToBody(IPhysicalEntity pEntity,
 			final Body boxBody) {
 		// connect entity and body
 		final PhysicsConnector connector = new PhysicsConnector(pEntity, boxBody, true, true);

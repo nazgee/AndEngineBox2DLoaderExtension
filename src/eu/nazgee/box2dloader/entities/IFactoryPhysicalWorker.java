@@ -3,7 +3,7 @@ package eu.nazgee.box2dloader.entities;
 import eu.nazgee.box2dloader.recipes.IRecipeEntity;
 
 
-public interface IFactoryWorkerEntity {
+public interface IFactoryPhysicalWorker {
 	boolean understandsRecipe(final IRecipeEntity pRecipe);
-	IPhysicsAwareEntity build(final IRecipeEntity pRecipe);
+	IPhysicalEntity build(final IRecipeEntity pRecipe);
 }

@@ -29,9 +29,9 @@ import android.util.Log;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
 
-import eu.nazgee.box2dloader.entities.IFactoryPhysicsAwareEntity;
-import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
-import eu.nazgee.box2dloader.entities.PhysicsAwareEntity;
+import eu.nazgee.box2dloader.entities.IFactoryPhysical;
+import eu.nazgee.box2dloader.entities.IPhysicalEntity;
+import eu.nazgee.box2dloader.entities.PhysicalEntity;
 import eu.nazgee.box2dloader.physics.IFactoryBody;
 import eu.nazgee.box2dloader.physics.IFactoryJoint;
 import eu.nazgee.box2dloader.recipes.FactoryRecipeBase;
@@ -45,12 +45,12 @@ public class Loader {
 
 	
 	private FactoryRecipeBase mRecipesFactory;
-	private IFactoryPhysicsAwareEntity mPhysicsAwareEntityFactory;
+	private IFactoryPhysical mPhysicsAwareEntityFactory;
 	private IFactoryJoint mJointFactory;
 	private IFactoryBody mBodyFactory;
 
 	public Loader(FactoryRecipeBase pRecipesFactory,
-			IFactoryPhysicsAwareEntity pPhysicsAwareEntityFactory,
+			IFactoryPhysical pPhysicsAwareEntityFactory,
 			IFactoryJoint pJointFactory, IFactoryBody pBodyFactory) {
 		super();
 		this.setRecipesFactory(pRecipesFactory);
@@ -80,21 +80,21 @@ public class Loader {
 		return res;
 	}
 
-	public IPhysicsAwareEntity populatePhysicsAwareEntity(final String key) {
+	public IPhysicalEntity populatePhysicsAwareEntity(final String key) {
 		return populatePhysicsAwareEntity(key, getPhysicsAwareEntityFactory());
 	}
 
-	public IPhysicsAwareEntity populatePhysicsAwareEntity(final String key,
-			final IFactoryPhysicsAwareEntity pFactory) {
+	public IPhysicalEntity populatePhysicsAwareEntity(final String key,
+			final IFactoryPhysical pFactory) {
 		// prepare stub for new physics aware entity
 		final IRecipeEntity recipe = getEntityRecipe(key);
 
 		// create physics aware entity, based on given stub
-		final PhysicsAwareEntity result = new PhysicsAwareEntity(recipe);
+		final PhysicalEntity result = new PhysicalEntity(recipe);
 
 		// create children entities
 		recipe.callOnChildren(new IRecipeParameterCallable() {
-			private IPhysicsAwareEntity mParent = result;
+			private IPhysicalEntity mParent = result;
 
 			@Override
 			public void call(final IRecipe pRecipe) {
@@ -102,18 +102,18 @@ public class Loader {
 					return;
 				}
 	
-				IPhysicsAwareEntity product = pFactory.produce((IRecipeEntity) pRecipe);
+				IPhysicalEntity product = pFactory.produce((IRecipeEntity) pRecipe);
 
 				if (product != null) {
 					mParent.attachChild(product);
 
 					setVisualParent(product);
 					pRecipe.callOnChildren(this);
-					setVisualParent( (IPhysicsAwareEntity) product.getParent());
+					setVisualParent( (IPhysicalEntity) product.getParent());
 				}
 			}
 
-			private void setVisualParent(final IPhysicsAwareEntity mParent) {
+			private void setVisualParent(final IPhysicalEntity mParent) {
 				this.mParent = mParent;
 			}
 		});
@@ -121,11 +121,11 @@ public class Loader {
 		return result;
 	}
 
-	public void addPhysics(final IPhysicsAwareEntity pEntityWithoutPhysics) {
+	public void addPhysics(final IPhysicalEntity pEntityWithoutPhysics) {
 		addPhysics(pEntityWithoutPhysics, getBodyFactory(), getJointFactory());
 	}
 
-	public void addPhysics(final IPhysicsAwareEntity pEntityWithoutPhysics,
+	public void addPhysics(final IPhysicalEntity pEntityWithoutPhysics,
 			final IFactoryBody pBodyFactory,
 			final IFactoryJoint pJointFactory) {
 
@@ -135,15 +135,15 @@ public class Loader {
 	}
 
 	private void produceBodies(
-			final IPhysicsAwareEntity pRootEntity,
+			final IPhysicalEntity pRootEntity,
 			final IFactoryBody pFactory) {
 
 		pRootEntity.callOnChildren(new IEntityParameterCallable() {
 			@Override
 			public void call(final IEntity pEntity) {
-				if (pEntity instanceof IPhysicsAwareEntity) {
-					final IPhysicsAwareEntity pentity = (IPhysicsAwareEntity) pEntity;
-					produceBodies((IPhysicsAwareEntity) pEntity, pFactory);
+				if (pEntity instanceof IPhysicalEntity) {
+					final IPhysicalEntity pentity = (IPhysicalEntity) pEntity;
+					produceBodies((IPhysicalEntity) pEntity, pFactory);
 					// XXX why is it needed to set rot and pos to 0?
 					pentity.setPosition(0, 0);
 					pentity.setRotation(0);
@@ -172,15 +172,15 @@ public class Loader {
 	}
 
 	private void produceJoints(
-			final IPhysicsAwareEntity pEntityWithoutPhysics,
+			final IPhysicalEntity pEntityWithoutPhysics,
 			final IFactoryJoint pJointFactory) {
 
 		// prepare a stub-to-body mapping
-		final HashMap<IRecipe, IPhysicsAwareEntity> map = new HashMap<IRecipe, IPhysicsAwareEntity>();
+		final HashMap<IRecipe, IPhysicalEntity> map = new HashMap<IRecipe, IPhysicalEntity>();
 		pEntityWithoutPhysics.callOnChildren(new IEntityParameterCallable() {
 			@Override
 			public void call(final IEntity pEntity) {
-				final IPhysicsAwareEntity awareEntity = (IPhysicsAwareEntity) pEntity;
+				final IPhysicalEntity awareEntity = (IPhysicalEntity) pEntity;
 				map.put(awareEntity.getRecipe(), awareEntity);
 				awareEntity.callOnChildren(this);
 			}
@@ -189,8 +189,8 @@ public class Loader {
 		// iterate over all joints in this entity and make them alive
 		final Collection<IRecipeJoint> stubs = getRecipesFactory().getJointsAtAnchors(map.keySet());
 		for (final IRecipeJoint stub : stubs) {
-			final IPhysicsAwareEntity bodyA = map.get(stub.getRecipeA());
-			final IPhysicsAwareEntity bodyB = map.get(stub.getRecipeB());
+			final IPhysicalEntity bodyA = map.get(stub.getRecipeA());
+			final IPhysicalEntity bodyB = map.get(stub.getRecipeB());
 			Joint joint = pJointFactory.produce(stub, bodyA, bodyB);
 
 			if (pJointFactory.getListener() != null) {
@@ -199,11 +199,11 @@ public class Loader {
 		}
 	}
 
-	public IFactoryPhysicsAwareEntity getPhysicsAwareEntityFactory() {
+	public IFactoryPhysical getPhysicsAwareEntityFactory() {
 		return mPhysicsAwareEntityFactory;
 	}
 
-	public void setPhysicsAwareEntityFactory(IFactoryPhysicsAwareEntity pPhysicsAwareEntityFactory) {
+	public void setPhysicsAwareEntityFactory(IFactoryPhysical pPhysicsAwareEntityFactory) {
 		this.mPhysicsAwareEntityFactory = pPhysicsAwareEntityFactory;
 	}
 
