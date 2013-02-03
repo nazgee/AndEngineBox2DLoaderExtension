@@ -6,8 +6,6 @@ import org.andengine.entity.IEntityParameterCallable;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
-import android.util.Log;
-
 import com.badlogic.gdx.physics.box2d.Body;
 
 import eu.nazgee.box2dloader.stubs.IStubBody;
@@ -21,7 +19,6 @@ public class PhysicsAwareEntity extends Entity implements IPhysicsAwareEntity {
 
 	public PhysicsAwareEntity(final IStubEntity pB2DEntity) {
 		super();
-		Log.d(getClass().getSimpleName(), "created new PhysicsAwareEntity from " + pB2DEntity.getTag() + " stub");
 		mB2DBodyDesc = pB2DEntity;
 	}
 

@@ -26,7 +26,7 @@ public class JointFactory implements IJointFactory {
 			final Joint joint = pJointStub.physicalize(mWorld, pStubA, pStubB);
 			return joint;
 		} else {
-			Log.w(getClass().getSimpleName(), "some bodies are not alive for joint " + pJointStub.getTag());
+			Log.e(getClass().getSimpleName(), "some bodies are not alive for joint " + pJointStub.getTag());
 			return null;
 		}
 	}

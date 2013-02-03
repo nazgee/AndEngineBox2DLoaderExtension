@@ -1,4 +1,4 @@
-package eu.nazgee.box2dloader.parser;
+package eu.nazgee.box2dloader.stubs.factory;
 
 import java.util.LinkedList;
 import java.util.Stack;
@@ -18,7 +18,7 @@ import eu.nazgee.box2dloader.stubs.StubJointRevolution;
 import eu.nazgee.box2dloader.stubs.StubJointRope;
 import eu.nazgee.box2dloader.stubs.StubSprite;
 
-public class Parser extends DefaultHandler {
+public class StubsFactory extends DefaultHandler {
 	private final ElementHandlerManager mManager = new ElementHandlerManager();
 
 	@Override
@@ -105,7 +105,7 @@ public class Parser extends DefaultHandler {
 		@Override
 		public void onStartElement(final IStub pStub) {
 			for (final IElementsStubHandler handler : mHandlers) {
-				if (handler.isSupported(pStub)) {
+				if (handler.canHandle(pStub)) {
 					mStubsStack.push(pStub);
 					mHandlersStack.push(handler).onStartElement(pStub);
 					break;
@@ -128,8 +128,8 @@ public class Parser extends DefaultHandler {
 		}
 
 		public void onEndDocument() {
-			// we should have all bodies collected by now. it's time to rebind joint
-			// with theirs remote counterparts
+			// we should have all bodies collected by now. it's time to rebind
+			// joints with remote counterparts
 			Log.d(getClass().getSimpleName(), "entities=" + mEntityElementHandler.mStubs.size());
 			Log.d(getClass().getSimpleName(), "bodies=" + mBodyElementHandler.mStubs.size());
 			mJointElementHandler.rebindStubs(mBodyElementHandler);

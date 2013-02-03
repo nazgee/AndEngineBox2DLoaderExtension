@@ -106,7 +106,7 @@ public class BodyFactory implements IBodyFactory {
 		final BodyTemplate bodyTemplate = this.shapes.get(pBodyName);
 
 		if (bodyTemplate == null) {
-			throw new RuntimeException("there is no shape named " + pBodyName);
+			throw new RuntimeException("there is no body named " + pBodyName + " defined");
 		}
 
 		final BodyDef boxBodyDef = new BodyDef();

@@ -34,44 +34,43 @@ import eu.nazgee.box2dloader.entities.PhysicsAwareEntity;
 import eu.nazgee.box2dloader.factories.IBodyFactory;
 import eu.nazgee.box2dloader.factories.IJointFactory;
 import eu.nazgee.box2dloader.factories.IPhysicsAwareEntityFactory;
-import eu.nazgee.box2dloader.parser.Parser;
 import eu.nazgee.box2dloader.stubs.IStub;
 import eu.nazgee.box2dloader.stubs.IStubEntity;
 import eu.nazgee.box2dloader.stubs.IStubJoint;
 import eu.nazgee.box2dloader.stubs.IStubParameterCallable;
 import eu.nazgee.box2dloader.stubs.StubBody;
-import eu.nazgee.box2dloader.stubs.StubEntity;
+import eu.nazgee.box2dloader.stubs.factory.StubsFactory;
 
 public class Loader {
 
-	private final Parser mHandler;
+	private final StubsFactory mStubsFactory;
 	private IPhysicsAwareEntityFactory mPhysicsAwareEntityFactory;
 	private IJointFactory mJointFactory;
 	private IBodyFactory mBodyFactory;
 
 	public Loader() {
-		mHandler = new Parser();
+		mStubsFactory = new StubsFactory();
 	}
 
 	public void open(final Context context, final String xmlFile) {
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
 			final SAXParser parser = factory.newSAXParser();
-			parser.parse(context.getAssets().open(xmlFile), mHandler);
+			parser.parse(context.getAssets().open(xmlFile), mStubsFactory);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public IStubEntity getEntityStub(final String key) {
-		IStubEntity res = this.mHandler.getManager().mBodyElementHandler.getStub(key);
+		IStubEntity res = this.mStubsFactory.getManager().mBodyElementHandler.getStub(key);
 		if (res == null) {
-			res = this.mHandler.getManager().mEntityElementHandler.getStub(key);
+			res = this.mStubsFactory.getManager().mEntityElementHandler.getStub(key);
 		}
 		if (res == null) {
 			Log.e(getClass().getSimpleName(), "Could not find " + key + " stub in bodies nor entities ("
-					+ this.mHandler.getManager().mBodyElementHandler.getStubs().size() + "/"
-					+ this.mHandler.getManager().mEntityElementHandler.getStubs().size());
+					+ this.mStubsFactory.getManager().mBodyElementHandler.getStubs().size() + "/"
+					+ this.mStubsFactory.getManager().mEntityElementHandler.getStubs().size());
 		}
 		return res;
 	}
@@ -90,21 +89,16 @@ public class Loader {
 
 		// create children entities
 		stub.callOnChildren(new IStubParameterCallable() {
-			private int mCounter;
 			private IPhysicsAwareEntity mParent = result;
 
 			@Override
 			public void call(final IStub pStub) {
-				mCounter++;
-				Log.d(getClass().getSimpleName(), "creating physics aware entity from " + (pStub).getTag() + " stub; i=" + mCounter);
-
 				IPhysicsAwareEntity product = pFactory.produce(pStub);
 
 				if (product != null) {
 					mParent.attachChild(product);
 
 					setVisualParent(product);
-					Log.d(getClass().getSimpleName(), ((StubEntity) pStub).getTag() + " children count: " + pStub.getChildCount());
 					pStub.callOnChildren(this);
 					setVisualParent( (IPhysicsAwareEntity) product.getParent());
 				}
@@ -156,9 +150,6 @@ public class Loader {
 
 			// set body properties
 			body.setBullet(desc.isBullet());
-			if (desc.isBullet()) {
-				Log.i("loader", "setting " + desc.getTag() + " as bullet");
-			}
 
 			// do some housekeeping
 			pRootEntity.setUserData(body);
@@ -187,7 +178,7 @@ public class Loader {
 		});
 
 		// iterate over all joints in this entity and make them alive
-		final Collection<IStubJoint> stubs = mHandler.getManager().mJointElementHandler.getJointsForStubs(map.keySet());
+		final Collection<IStubJoint> stubs = mStubsFactory.getManager().mJointElementHandler.getJointsForStubs(map.keySet());
 		for (final IStubJoint stub : stubs) {
 			final IPhysicsAwareEntity bodyA = map.get(stub.getStubA());
 			final IPhysicsAwareEntity bodyB = map.get(stub.getStubB());

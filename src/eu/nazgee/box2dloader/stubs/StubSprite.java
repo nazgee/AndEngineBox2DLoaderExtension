@@ -1,6 +1,5 @@
 package eu.nazgee.box2dloader.stubs;
 
-import org.andengine.util.debug.Debug;
 import org.xml.sax.Attributes;
 
 public class StubSprite extends StubEntity {
@@ -17,6 +16,5 @@ public class StubSprite extends StubEntity {
 			throw new RuntimeException(getClass().getSimpleName() +
 					" didn't find " + ATTRIBUTE_SPRITE_TEXTURE_REGION + " attribute");
 		}
-		Debug.i(getTag() + " - new " + getClass().getSimpleName() + " x=" + getX() + "; y=" +getY());
 	}
 }

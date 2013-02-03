@@ -1,4 +1,4 @@
-package eu.nazgee.box2dloader.parser;
+package eu.nazgee.box2dloader.stubs.factory;
 
 import eu.nazgee.box2dloader.stubs.IStub;
 

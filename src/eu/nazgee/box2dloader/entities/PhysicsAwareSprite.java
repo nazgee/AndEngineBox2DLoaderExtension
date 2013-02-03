@@ -11,8 +11,6 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import android.util.Log;
-
 import com.badlogic.gdx.physics.box2d.Body;
 
 import eu.nazgee.box2dloader.stubs.IStubBody;
@@ -119,7 +117,6 @@ public class PhysicsAwareSprite extends Sprite implements IPhysicsAwareEntity {
 			final VertexBufferObjectManager pVertexBufferObjectManager) {
 		super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
 		this.mB2DBodyDesc = pB2DBodyDesc;
-		Log.d(getClass().getSimpleName(), "created new PhysicsAwareSprite from " + pB2DBodyDesc.getTag() + " stub");
 	}
 
 	@Override

@@ -1,14 +1,14 @@
-package eu.nazgee.box2dloader.parser;
+package eu.nazgee.box2dloader.stubs.factory;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 import android.util.Log;
-import eu.nazgee.box2dloader.parser.Parser.ElementHandlerManager;
 import eu.nazgee.box2dloader.stubs.IStub;
 import eu.nazgee.box2dloader.stubs.IStubBody;
 import eu.nazgee.box2dloader.stubs.IStubJoint;
+import eu.nazgee.box2dloader.stubs.factory.StubsFactory.ElementHandlerManager;
 
 public class ElementHandlerJoint extends ElementsHandlerBase {
 	public HashMap<IStubBody, Collection<IStubJoint>> mJointStubs = new HashMap<IStubBody, Collection<IStubJoint>>();
@@ -43,14 +43,14 @@ public class ElementHandlerJoint extends ElementsHandlerBase {
 	}
 
 	@Override
-	public boolean isSupported(final IStub pStub) {
+	public boolean canHandle(final IStub pStub) {
 		return (pStub instanceof IStubJoint);
 	}
 
 	public void rebindStubs(final ElementHandlerBody mBodyElementHandler) {
 		for (final Collection<IStubJoint> joints : mJointStubs.values()) {
 			for (final IStubJoint joint : joints) {
-				Log.d(getClass().getSimpleName(), "rebinding " + joint.getTag() + " with " + joint.getTagRemote());
+
 				final IStubBody body = mBodyElementHandler.getStub(joint.getTagRemote());
 				if (body != null) {
 					joint.setStubB(body);
@@ -59,8 +59,6 @@ public class ElementHandlerJoint extends ElementsHandlerBase {
 				}
 			}
 		}
-
-		Log.d(getClass().getSimpleName(), "A-side=" + mJointStubs.size());
 	}
 
 	public Collection<IStubJoint> getJointsForStub(final IStub pStubBody) {

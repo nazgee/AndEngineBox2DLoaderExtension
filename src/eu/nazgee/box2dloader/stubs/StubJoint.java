@@ -4,8 +4,6 @@ import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.andengine.util.SAXUtils;
 import org.xml.sax.Attributes;
 
-import android.util.Log;
-
 import com.badlogic.gdx.math.Vector2;
 
 import eu.nazgee.box2dloader.Consts;
@@ -48,8 +46,6 @@ public abstract class StubJoint extends Stub implements IStubJoint, Consts {
 		}
 
 		mCollideConnected = SAXUtils.getBooleanAttribute(pAttributes, ATTRIBUTE_JOINT_COLLIDE, false);
-
-		Log.i(getClass().getSimpleName(), "joint created: " + getTag());
 	}
 
 	@Override

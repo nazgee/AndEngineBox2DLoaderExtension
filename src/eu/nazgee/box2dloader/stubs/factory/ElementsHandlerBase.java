@@ -1,10 +1,9 @@
-package eu.nazgee.box2dloader.parser;
+package eu.nazgee.box2dloader.stubs.factory;
 
 import java.util.HashMap;
 
-import android.util.Log;
-import eu.nazgee.box2dloader.parser.Parser.ElementHandlerManager;
 import eu.nazgee.box2dloader.stubs.IStub;
+import eu.nazgee.box2dloader.stubs.factory.StubsFactory.ElementHandlerManager;
 
 public abstract class ElementsHandlerBase implements IElementsStubHandler {
 	private final ElementHandlerManager mManager;
@@ -23,15 +22,11 @@ public abstract class ElementsHandlerBase implements IElementsStubHandler {
 	@Override
 	public void onStartElement(final IStub pStub) {
 
-		Log.d(getClass().getSimpleName(), "onStartElement " + pStub.getTag());
-
 		// make sure that children-parent relationship is maintained
 		final IStub parent = getManager().peekPreviousStub();
 		if (parent != null) {
 			parent.attachChild(pStub);
-			Log.d(getClass().getSimpleName(), "onStartElement; " + pStub.getTag() +" is a child of "+ parent.getTag() + " and has " + parent.getChildCount() + " siblings");
 		} else {
-			Log.d(getClass().getSimpleName(), "starting top-level element: " + pStub.getTag());
 		}
 
 		mStubs.put(pStub.getTag(), pStub);

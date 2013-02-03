@@ -1,10 +1,10 @@
-package eu.nazgee.box2dloader.parser;
+package eu.nazgee.box2dloader.stubs.factory;
 
 import java.util.HashMap;
 
-import eu.nazgee.box2dloader.parser.Parser.ElementHandlerManager;
 import eu.nazgee.box2dloader.stubs.IStub;
 import eu.nazgee.box2dloader.stubs.IStubEntity;
+import eu.nazgee.box2dloader.stubs.factory.StubsFactory.ElementHandlerManager;
 
 public class ElementHandlerEntity extends ElementsHandlerBase {
 
@@ -17,7 +17,7 @@ public class ElementHandlerEntity extends ElementsHandlerBase {
 	}
 
 	@Override
-	public boolean isSupported(final IStub pStub) {
+	public boolean canHandle(final IStub pStub) {
 		return (pStub instanceof IStubEntity);
 	}
 

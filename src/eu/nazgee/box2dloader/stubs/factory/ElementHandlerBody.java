@@ -1,8 +1,8 @@
-package eu.nazgee.box2dloader.parser;
+package eu.nazgee.box2dloader.stubs.factory;
 
-import eu.nazgee.box2dloader.parser.Parser.ElementHandlerManager;
 import eu.nazgee.box2dloader.stubs.IStub;
 import eu.nazgee.box2dloader.stubs.IStubBody;
+import eu.nazgee.box2dloader.stubs.factory.StubsFactory.ElementHandlerManager;
 
 public class ElementHandlerBody extends ElementHandlerEntity {
 
@@ -11,7 +11,7 @@ public class ElementHandlerBody extends ElementHandlerEntity {
 	}
 
 	@Override
-	public boolean isSupported(final IStub pStub) {
+	public boolean canHandle(final IStub pStub) {
 		return (pStub instanceof IStubBody);
 	}
 
