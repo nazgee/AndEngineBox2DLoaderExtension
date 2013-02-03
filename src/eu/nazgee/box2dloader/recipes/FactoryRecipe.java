@@ -7,21 +7,20 @@ import java.util.Stack;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 import eu.nazgee.box2dloader.Consts;
 
-public class FactoryRecipes extends DefaultHandler {
+public class FactoryRecipe extends FactoryRecipeBase {
 
 	protected final FactoryRecipeParser mProducer = new FactoryRecipeParser();
 	private final Stack<IRecipe> mRecipesStack = new Stack<IRecipe>();
 
-	public final HashMap<String, IRecipeEntity> mEntities = new HashMap<String, IRecipeEntity>();
-	public final HashMap<String, IRecipeBody> mBodies = new HashMap<String, IRecipeBody>();
-	public HashMap<IRecipeBody, Collection<IRecipeJoint>> mJoints = new HashMap<IRecipeBody, Collection<IRecipeJoint>>();
+	private final HashMap<String, IRecipeEntity> mEntities = new HashMap<String, IRecipeEntity>();
+	private final HashMap<String, IRecipeBody> mBodies = new HashMap<String, IRecipeBody>();
+	private final HashMap<IRecipeBody, Collection<IRecipeJoint>> mJoints = new HashMap<IRecipeBody, Collection<IRecipeJoint>>();
 
-	public FactoryRecipes() {
+	public FactoryRecipe() {
 		mProducer.addHelperLast(new RecipeParserEntity());
 		mProducer.addHelperLast(new RecipeParserSprite());
 		mProducer.addHelperLast(new RecipeParserBody());
@@ -72,16 +71,16 @@ public class FactoryRecipes extends DefaultHandler {
 	@Override
 	public void endDocument() throws SAXException {
 		super.endDocument();
-		Log.d(getClass().getSimpleName(), "mEntities.size()=" + mEntities.size());
-		Log.d(getClass().getSimpleName(), "mBodies.size()=" + mBodies.size());
-		Log.d(getClass().getSimpleName(), "mJoints.size()=" + mJoints.size());
+		Log.d(getClass().getSimpleName(), "mEntities.size()=" + getEntities().size());
+		Log.d(getClass().getSimpleName(), "mBodies.size()=" + getBodies().size());
+		Log.d(getClass().getSimpleName(), "mJoints.size()=" + getJoints().size());
 
 		// we should have all bodies collected by now. it's time to rebind
 		// joints with remote counterparts
-		for (final Collection<IRecipeJoint> joints : mJoints.values()) {
+		for (final Collection<IRecipeJoint> joints : getJoints().values()) {
 			for (final IRecipeJoint joint : joints) {
 
-				final IRecipeBody body = mBodies.get(joint.getTagRemote());
+				final IRecipeBody body = getBodies().get(joint.getTagRemote());
 				if (body != null) {
 					joint.setBodyB(body);
 				} else {
@@ -100,7 +99,7 @@ public class FactoryRecipes extends DefaultHandler {
 
 		for (final IRecipe recipe : pRecipes) {
 			if (recipe != null) {
-				final Collection<IRecipeJoint> joints = mJoints.get(recipe);
+				final Collection<IRecipeJoint> joints = getJoints().get(recipe);
 				if (joints != null) {
 					ret.addAll(joints);
 				}
@@ -108,6 +107,18 @@ public class FactoryRecipes extends DefaultHandler {
 		}
 
 		return ret;
+	}
+
+	public HashMap<String, IRecipeEntity> getEntities() {
+		return mEntities;
+	}
+
+	public HashMap<String, IRecipeBody> getBodies() {
+		return mBodies;
+	}
+
+	public HashMap<IRecipeBody, Collection<IRecipeJoint>> getJoints() {
+		return mJoints;
 	}
 
 	protected IRecipe peekRecipePrevious() {
@@ -152,12 +163,12 @@ public class FactoryRecipes extends DefaultHandler {
 			final IRecipeBody body = (IRecipeBody) peekRecipeCurrent();
 			recipe.setBodyA(body);
 
-			Collection<IRecipeJoint> jointsList = mJoints.get(body);
+			Collection<IRecipeJoint> jointsList = getJoints().get(body);
 			if (jointsList == null) {
 				jointsList = new LinkedList<IRecipeJoint>();
 			}
 			jointsList.add(recipe);
-			mJoints.put(body, jointsList);
+			getJoints().put(body, jointsList);
 
 			return recipe;
 		}
@@ -196,7 +207,7 @@ public class FactoryRecipes extends DefaultHandler {
 		@Override
 		public IRecipe parse(String pRecipeName, Attributes pAttributes) {
 			IRecipeBody r = new RecipeBodySprite(pAttributes);
-			mBodies.put(r.getTag(), r);
+			getBodies().put(r.getTag(), r);
 			return r; 
 		}
 	}
@@ -210,7 +221,7 @@ public class FactoryRecipes extends DefaultHandler {
 		@Override
 		public IRecipe parse(String pRecipeName, Attributes pAttributes) {
 			IRecipeBody r = new RecipeBody(pAttributes);
-			mBodies.put(r.getTag(), r);
+			getBodies().put(r.getTag(), r);
 			return r; 
 		}
 	}
@@ -224,7 +235,7 @@ public class FactoryRecipes extends DefaultHandler {
 		@Override
 		public IRecipe parse(String pRecipeName, Attributes pAttributes) {
 			IRecipeEntity r = new RecipeSprite(pAttributes);
-			mEntities.put(r.getTag(), r);
+			getEntities().put(r.getTag(), r);
 			return r; 
 		}
 	}
@@ -238,7 +249,7 @@ public class FactoryRecipes extends DefaultHandler {
 		@Override
 		public IRecipe parse(String pRecipeName, final Attributes pAttributes) {
 			IRecipeEntity r = new RecipeEntity(pAttributes);
-			mEntities.put(r.getTag(), r);
+			getEntities().put(r.getTag(), r);
 			return r; 
 		}
 	}

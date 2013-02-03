@@ -1,4 +1,4 @@
-package eu.nazgee.box2dloader.factories;
+package eu.nazgee.box2dloader.physics;
 
 /**
  * PhysicsEditor Importer Library
@@ -42,28 +42,28 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
 
-public class BodyFactory implements IBodyFactory {
+public class FactoryBody implements IFactoryBody {
 	private final HashMap<String, BodyTemplate> shapes = new HashMap<String, BodyTemplate>();
 	private float pixelToMeterRatio = PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
-	private IBodyFactoryListener mListener;
+	private IFactoryBodyListener mListener;
 	private PhysicsWorld mPhysicsWorld;
 
-	public BodyFactory(final PhysicsWorld pPhysicsWorld) {
+	public FactoryBody(final PhysicsWorld pPhysicsWorld) {
 		mPhysicsWorld = pPhysicsWorld;
 	}
 
-	public BodyFactory(final PhysicsWorld pPhysicsWorld, final float pixelToMeterRatio) {
+	public FactoryBody(final PhysicsWorld pPhysicsWorld, final float pixelToMeterRatio) {
 		mPhysicsWorld = pPhysicsWorld;
 		this.pixelToMeterRatio = pixelToMeterRatio;
 	}
 
 	@Override
-	public IBodyFactoryListener getListener() {
+	public IFactoryBodyListener getListener() {
 		return mListener;
 	}
 
 	@Override
-	public void setListener(IBodyFactoryListener pListener) {
+	public void setListener(IFactoryBodyListener pListener) {
 		mListener = pListener; 
 	}
 

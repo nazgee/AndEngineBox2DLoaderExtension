@@ -8,11 +8,11 @@ import eu.nazgee.box2dloader.Consts;
 public class RecipeEntity extends Recipe implements IRecipeEntity, Consts {
 	public final float x;
 	public final float y;
-	public final int zindex;
-	public final float rotation;
-	public final float color_r;
-	public final float color_g;
-	public final float color_b;
+	private final int zindex;
+	private final float rotation;
+	private final float color_r;
+	private final float color_g;
+	private final float color_b;
 
 	public static String getRecipeName() {
 		return RECIPE_ENTITY;
@@ -38,5 +38,30 @@ public class RecipeEntity extends Recipe implements IRecipeEntity, Consts {
 	@Override
 	public float getY() {
 		return y;
+	}
+
+	@Override
+	public float getColorR() {
+		return color_r;
+	}
+
+	@Override
+	public float getColorG() {
+		return color_g;
+	}
+
+	@Override
+	public float getColorB() {
+		return color_b;
+	}
+
+	@Override
+	public float getRotation() {
+		return rotation;
+	}
+
+	@Override
+	public int getZindex() {
+		return zindex;
 	}
 }

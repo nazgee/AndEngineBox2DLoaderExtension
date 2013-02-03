@@ -1,4 +1,4 @@
-package eu.nazgee.box2dloader.factories;
+package eu.nazgee.box2dloader.physics;
 
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
@@ -9,11 +9,11 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
 import eu.nazgee.box2dloader.recipes.IRecipeJoint;
 
-public class JointFactory implements IJointFactory {
-	protected IJointFactoryListener mListener;
+public class FactoryJoint implements IFactoryJoint {
+	protected IFactoryJointListener mListener;
 	protected final PhysicsWorld mWorld;
 
-	public JointFactory(IJointFactoryListener mListener, PhysicsWorld mWorld) {
+	public FactoryJoint(IFactoryJointListener mListener, PhysicsWorld mWorld) {
 		super();
 		this.mListener = mListener;
 		this.mWorld = mWorld;
@@ -32,12 +32,12 @@ public class JointFactory implements IJointFactory {
 	}
 
 	@Override
-	public IJointFactoryListener getListener() {
+	public IFactoryJointListener getListener() {
 		return mListener;
 	}
 
 	@Override
-	public void setListener(IJointFactoryListener pListener) {
+	public void setListener(IFactoryJointListener pListener) {
 		mListener = pListener;
 	}
 }
