@@ -1,8 +1,8 @@
-package eu.nazgee.box2dloader.stubs;
+package eu.nazgee.box2dloader.recipes;
 
 import org.andengine.util.call.ParameterCallable;
 
-public interface IStubParameterCallable extends ParameterCallable<IStub> {
+public interface IRecipeParameterCallable extends ParameterCallable<IRecipe> {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -12,5 +12,5 @@ public interface IStubParameterCallable extends ParameterCallable<IStub> {
 	// ===========================================================
 
 	@Override
-	public void call(final IStub pEntity);
+	public void call(final IRecipe pEntity);
 }

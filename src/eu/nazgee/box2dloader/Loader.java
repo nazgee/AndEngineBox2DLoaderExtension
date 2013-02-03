@@ -34,43 +34,46 @@ import eu.nazgee.box2dloader.entities.PhysicsAwareEntity;
 import eu.nazgee.box2dloader.factories.IBodyFactory;
 import eu.nazgee.box2dloader.factories.IJointFactory;
 import eu.nazgee.box2dloader.factories.IPhysicsAwareEntityFactory;
-import eu.nazgee.box2dloader.stubs.IStub;
-import eu.nazgee.box2dloader.stubs.IStubEntity;
-import eu.nazgee.box2dloader.stubs.IStubJoint;
-import eu.nazgee.box2dloader.stubs.IStubParameterCallable;
-import eu.nazgee.box2dloader.stubs.StubBody;
-import eu.nazgee.box2dloader.stubs.factory.StubsFactory;
+import eu.nazgee.box2dloader.recipes.IRecipe;
+import eu.nazgee.box2dloader.recipes.IRecipeEntity;
+import eu.nazgee.box2dloader.recipes.IRecipeJoint;
+import eu.nazgee.box2dloader.recipes.IRecipeParameterCallable;
+import eu.nazgee.box2dloader.recipes.RecipeBody;
+import eu.nazgee.box2dloader.recipes.FactoryRecipes;
 
 public class Loader {
 
-	private final StubsFactory mStubsFactory;
+	private final FactoryRecipes mRecipesFactory;
 	private IPhysicsAwareEntityFactory mPhysicsAwareEntityFactory;
 	private IJointFactory mJointFactory;
 	private IBodyFactory mBodyFactory;
 
 	public Loader() {
-		mStubsFactory = new StubsFactory();
+		mRecipesFactory = new FactoryRecipes();
 	}
 
 	public void open(final Context context, final String xmlFile) {
 		final SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
 			final SAXParser parser = factory.newSAXParser();
-			parser.parse(context.getAssets().open(xmlFile), mStubsFactory);
+			parser.parse(context.getAssets().open(xmlFile), mRecipesFactory);
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public IStubEntity getEntityStub(final String key) {
-		IStubEntity res = this.mStubsFactory.getManager().mBodyElementHandler.getStub(key);
+	public IRecipeEntity getEntityRecipe(final String key) {
+//		IRecipeEntity res = this.mRecipesFactory.getManager().mBodyElementHandler.getRecipe(key);
+		IRecipeEntity res = this.mRecipesFactory.mBodies.get(key);
 		if (res == null) {
-			res = this.mStubsFactory.getManager().mEntityElementHandler.getStub(key);
+//			res = this.mRecipesFactory.getManager().mEntityElementHandler.getRecipe(key);
+			res = this.mRecipesFactory.mEntities.get(key);
 		}
 		if (res == null) {
 			Log.e(getClass().getSimpleName(), "Could not find " + key + " stub in bodies nor entities ("
-					+ this.mStubsFactory.getManager().mBodyElementHandler.getStubs().size() + "/"
-					+ this.mStubsFactory.getManager().mEntityElementHandler.getStubs().size());
+//					+ this.mRecipesFactory.getManager().mBodyElementHandler.getRecipes().size() + "/"
+//					+ this.mRecipesFactory.getManager().mEntityElementHandler.getRecipes().size()
+					);
 		}
 		return res;
 	}
@@ -82,24 +85,24 @@ public class Loader {
 	public IPhysicsAwareEntity populatePhysicsAwareEntity(final String key,
 			final IPhysicsAwareEntityFactory pFactory) {
 		// prepare stub for new physics aware entity
-		final IStubEntity stub = getEntityStub(key);
+		final IRecipeEntity stub = getEntityRecipe(key);
 
 		// create physics aware entity, based on given stub
 		final PhysicsAwareEntity result = new PhysicsAwareEntity(stub);
 
 		// create children entities
-		stub.callOnChildren(new IStubParameterCallable() {
+		stub.callOnChildren(new IRecipeParameterCallable() {
 			private IPhysicsAwareEntity mParent = result;
 
 			@Override
-			public void call(final IStub pStub) {
-				IPhysicsAwareEntity product = pFactory.produce(pStub);
+			public void call(final IRecipe pRecipe) {
+				IPhysicsAwareEntity product = pFactory.produce(pRecipe);
 
 				if (product != null) {
 					mParent.attachChild(product);
 
 					setVisualParent(product);
-					pStub.callOnChildren(this);
+					pRecipe.callOnChildren(this);
 					setVisualParent( (IPhysicsAwareEntity) product.getParent());
 				}
 			}
@@ -142,8 +145,8 @@ public class Loader {
 			}
 		});
 
-		if (pRootEntity.getStub() instanceof StubBody) {
-			final StubBody desc = (StubBody) pRootEntity.getStub();
+		if (pRootEntity.getRecipe() instanceof RecipeBody) {
+			final RecipeBody desc = (RecipeBody) pRootEntity.getRecipe();
 
 			// create physical body and bind it with entity
 			final Body body = pFactory.produce(desc.shapeName, pRootEntity);
@@ -167,21 +170,21 @@ public class Loader {
 			final IJointFactory pJointFactory) {
 
 		// prepare a stub-to-body mapping
-		final HashMap<IStub, IPhysicsAwareEntity> map = new HashMap<IStub, IPhysicsAwareEntity>();
+		final HashMap<IRecipe, IPhysicsAwareEntity> map = new HashMap<IRecipe, IPhysicsAwareEntity>();
 		pEntityWithoutPhysics.callOnChildren(new IEntityParameterCallable() {
 			@Override
 			public void call(final IEntity pEntity) {
 				final IPhysicsAwareEntity awareEntity = (IPhysicsAwareEntity) pEntity;
-				map.put(awareEntity.getStub(), awareEntity);
+				map.put(awareEntity.getRecipe(), awareEntity);
 				awareEntity.callOnChildren(this);
 			}
 		});
 
 		// iterate over all joints in this entity and make them alive
-		final Collection<IStubJoint> stubs = mStubsFactory.getManager().mJointElementHandler.getJointsForStubs(map.keySet());
-		for (final IStubJoint stub : stubs) {
-			final IPhysicsAwareEntity bodyA = map.get(stub.getStubA());
-			final IPhysicsAwareEntity bodyB = map.get(stub.getStubB());
+		final Collection<IRecipeJoint> stubs = mRecipesFactory.getJointsAtAnchors(map.keySet());
+		for (final IRecipeJoint stub : stubs) {
+			final IPhysicsAwareEntity bodyA = map.get(stub.getRecipeA());
+			final IPhysicsAwareEntity bodyB = map.get(stub.getRecipeB());
 			Joint joint = pJointFactory.produce(stub, bodyA, bodyB);
 
 			if (pJointFactory.getListener() != null) {

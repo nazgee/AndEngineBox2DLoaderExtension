@@ -34,11 +34,11 @@ public interface Consts {
 	// sprite
 	public static final String ATTRIBUTE_SPRITE_TEXTURE_REGION = "texture-region";
 
-	public static final String STUB_ENTITY = "entity";
-	public static final String STUB_BODY = "body";
-	public static final String STUB_BODY_WITH_SPRITE = "body-sprite";
-	public static final String STUB_SPRITE = "sprite";
-	public static final String STUB_JOINT = "joint";
+	public static final String RECIPE_ENTITY = "entity";
+	public static final String RECIPE_BODY = "body";
+	public static final String RECIPE_BODY_WITH_SPRITE = "body-sprite";
+	public static final String RECIPE_SPRITE = "sprite";
+	public static final String RECIPE_JOINT = "joint";
 
 	// joints types
 	public static final String JOINT_TYPE = "type";

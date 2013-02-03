@@ -6,10 +6,10 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
 import eu.nazgee.box2dloader.entities.PhysicsAwareEntity;
 import eu.nazgee.box2dloader.entities.PhysicsAwareSprite;
-import eu.nazgee.box2dloader.stubs.IStub;
-import eu.nazgee.box2dloader.stubs.StubBodySprite;
-import eu.nazgee.box2dloader.stubs.StubEntity;
-import eu.nazgee.box2dloader.stubs.StubSprite;
+import eu.nazgee.box2dloader.recipes.IRecipe;
+import eu.nazgee.box2dloader.recipes.RecipeBodySprite;
+import eu.nazgee.box2dloader.recipes.RecipeEntity;
+import eu.nazgee.box2dloader.recipes.RecipeSprite;
 
 public abstract class PhysicsAwareEntityFactoryBase implements IPhysicsAwareEntityFactory {
 
@@ -21,22 +21,22 @@ public abstract class PhysicsAwareEntityFactoryBase implements IPhysicsAwareEnti
 	}
 
 	@Override
-	public IPhysicsAwareEntity produce(IStub pStub) {
-		if (!(pStub instanceof StubEntity)) {
+	public IPhysicsAwareEntity produce(IRecipe pRecipe) {
+		if (!(pRecipe instanceof RecipeEntity)) {
 			return null;
 		}
 
-		StubEntity stubEntity = ((StubEntity) pStub);
+		RecipeEntity stubEntity = ((RecipeEntity) pRecipe);
 
 		IPhysicsAwareEntity product;
-		if (stubEntity instanceof StubBodySprite) {
-			StubBodySprite stub = ((StubBodySprite) stubEntity);
+		if (stubEntity instanceof RecipeBodySprite) {
+			RecipeBodySprite stub = ((RecipeBodySprite) stubEntity);
 			product = new PhysicsAwareSprite(stub, stub.getX(), stub.getY(), getTextureFromKey(stub.textureName), mVBO);
-		} else if (stubEntity instanceof StubSprite) {
-			StubSprite stub = ((StubSprite) stubEntity);
+		} else if (stubEntity instanceof RecipeSprite) {
+			RecipeSprite stub = ((RecipeSprite) stubEntity);
 			product = new PhysicsAwareSprite(stub, stub.getX(), stub.getY(), getTextureFromKey(stub.textureName), mVBO);
 		} else  {
-			StubEntity stub = stubEntity;
+			RecipeEntity stub = stubEntity;
 			product = new PhysicsAwareEntity(stub, stub.getX(), stub.getY());
 		}
 

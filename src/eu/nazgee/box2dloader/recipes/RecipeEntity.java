@@ -1,11 +1,11 @@
-package eu.nazgee.box2dloader.stubs;
+package eu.nazgee.box2dloader.recipes;
 
 import org.andengine.util.SAXUtils;
 import org.xml.sax.Attributes;
 
 import eu.nazgee.box2dloader.Consts;
 
-public class StubEntity extends Stub implements IStubEntity, Consts {
+public class RecipeEntity extends Recipe implements IRecipeEntity, Consts {
 	public final float x;
 	public final float y;
 	public final int zindex;
@@ -14,11 +14,11 @@ public class StubEntity extends Stub implements IStubEntity, Consts {
 	public final float color_g;
 	public final float color_b;
 
-	public static String getStubName() {
-		return STUB_ENTITY;
+	public static String getRecipeName() {
+		return RECIPE_ENTITY;
 	}
 
-	public StubEntity(final Attributes pAttributes) {
+	public RecipeEntity(final Attributes pAttributes) {
 		super(pAttributes);
 
 		x = SAXUtils.getFloatAttribute(pAttributes, ATTRIBUTE_X, 0);

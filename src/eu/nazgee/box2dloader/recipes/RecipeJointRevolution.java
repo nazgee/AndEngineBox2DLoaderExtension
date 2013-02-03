@@ -1,4 +1,4 @@
-package eu.nazgee.box2dloader.stubs;
+package eu.nazgee.box2dloader.recipes;
 
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
@@ -12,16 +12,16 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
 
-public class StubJointRevolution extends StubJoint {
+public class RecipeJointRevolution extends RecipeJoint {
 
 	private final float mLowerAngle;
 	private final float mUpperAngle;
 
-	public static String getStubTypeName() {
+	public static String getRecipeJointType() {
 		return JOINT_TYPE_REVOLUTION;
 	}
 
-	public StubJointRevolution(final Attributes pAttributes) {
+	public RecipeJointRevolution(final Attributes pAttributes) {
 		super(pAttributes);
 		mLowerAngle = SAXUtils.getFloatAttribute(pAttributes, ATTRIBUTE_JOINT_REVOLUTION_MIN, 0);
 		mUpperAngle = SAXUtils.getFloatAttribute(pAttributes, ATTRIBUTE_JOINT_REVOLUTION_MAX, 0);

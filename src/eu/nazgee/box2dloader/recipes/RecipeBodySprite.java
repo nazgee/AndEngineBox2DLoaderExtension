@@ -1,15 +1,15 @@
-package eu.nazgee.box2dloader.stubs;
+package eu.nazgee.box2dloader.recipes;
 
 import org.xml.sax.Attributes;
 
-public class StubSprite extends StubEntity {
+public class RecipeBodySprite extends RecipeBody {
 	public final String textureName;
 
-	public static String getStubName() {
-		return STUB_SPRITE;
+	public static String getRecipeName() {
+		return RECIPE_BODY_WITH_SPRITE;
 	}
 
-	public StubSprite(final Attributes pAttributes) {
+	public RecipeBodySprite(final Attributes pAttributes) {
 		super(pAttributes);
 		textureName = pAttributes.getValue(ATTRIBUTE_SPRITE_TEXTURE_REGION);
 		if (textureName == null) {

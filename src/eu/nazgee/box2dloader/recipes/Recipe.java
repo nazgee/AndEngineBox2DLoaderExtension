@@ -1,13 +1,13 @@
-package eu.nazgee.box2dloader.stubs;
+package eu.nazgee.box2dloader.recipes;
 
 import org.andengine.util.adt.list.SmartList;
 import org.xml.sax.Attributes;
 
 import eu.nazgee.box2dloader.Consts;
 
-public class Stub implements IStub, Consts {
-	public SmartList<IStub> mChildren;
-	IStub mParent;
+public class Recipe implements IRecipe, Consts {
+	public SmartList<IRecipe> mChildren;
+	IRecipe mParent;
 	private String mTag;
 	private static Integer mUnnamedStubsCounter = 0;
 
@@ -16,7 +16,7 @@ public class Stub implements IStub, Consts {
 		return mTag;
 	}
 
-	public Stub(final Attributes pAttributes) {
+	public Recipe(final Attributes pAttributes) {
 		mTag = pAttributes.getValue(ATTRIBUTE_TAG);
 		if (mTag == null) {
 			synchronized (mUnnamedStubsCounter) {
@@ -26,7 +26,7 @@ public class Stub implements IStub, Consts {
 	}
 
 	@Override
-	public void callOnChildren(final IStubParameterCallable pEntityParameterCallable) {
+	public void callOnChildren(final IRecipeParameterCallable pEntityParameterCallable) {
 		if(this.mChildren == null) {
 			return;
 		}
@@ -42,12 +42,12 @@ public class Stub implements IStub, Consts {
 	}
 
 	@Override
-	public IStub getChildByTag(final String pTag) {
+	public IRecipe getChildByTag(final String pTag) {
 		if(this.mChildren == null) {
 			return null;
 		}
 		for(int i = this.mChildren.size() - 1; i >= 0; i--) {
-			final IStub child = this.mChildren.get(i);
+			final IRecipe child = this.mChildren.get(i);
 			if(child.getTag().equals(pTag)) {
 				return child;
 			}
@@ -56,17 +56,17 @@ public class Stub implements IStub, Consts {
 	}
 
 	@Override
-	public IStub getParent() {
+	public IRecipe getParent() {
 		return mParent;
 	}
 
 	@Override
-	public void setParent(final IStub pParent) {
+	public void setParent(final IRecipe pParent) {
 		mParent = pParent;
 	}
 
 	@Override
-	public void attachChild(final IStub pStub) throws IllegalStateException {
+	public void attachChild(final IRecipe pStub) throws IllegalStateException {
 		this.assertBodyDescHasNoParent(pStub);
 
 		if(this.mChildren == null) {
@@ -76,7 +76,7 @@ public class Stub implements IStub, Consts {
 		pStub.setParent(this);
 	}
 
-	private void assertBodyDescHasNoParent(final IStub pStub) throws IllegalStateException {
+	private void assertBodyDescHasNoParent(final IRecipe pStub) throws IllegalStateException {
 		if(pStub.getParent() != null) {
 			final String entityClassName = pStub.getClass().getSimpleName();
 			final String currentParentClassName = pStub.getParent().getClass().getSimpleName();
@@ -86,6 +86,6 @@ public class Stub implements IStub, Consts {
 	}
 
 	private void allocateChildren() {
-		this.mChildren = new SmartList<IStub>(IStub.CHILDREN_CAPACITY_DEFAULT);
+		this.mChildren = new SmartList<IRecipe>(IRecipe.CHILDREN_CAPACITY_DEFAULT);
 	}
 }

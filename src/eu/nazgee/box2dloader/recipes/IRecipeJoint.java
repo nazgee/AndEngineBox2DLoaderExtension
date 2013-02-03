@@ -1,4 +1,4 @@
-package eu.nazgee.box2dloader.stubs;
+package eu.nazgee.box2dloader.recipes;
 
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
@@ -7,11 +7,11 @@ import com.badlogic.gdx.physics.box2d.Joint;
 
 import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
 
-public interface IStubJoint extends IStub {
-	public void setStubA(IStubBody pStub);
-	public void setStubB(IStubBody pStub);
-	public IStubBody getStubA();
-	public IStubBody getStubB();
+public interface IRecipeJoint extends IRecipe {
+	public void setBodyA(IRecipeBody pRecipe);
+	public void setBodyB(IRecipeBody pRecipe);
+	public IRecipeBody getRecipeA();
+	public IRecipeBody getRecipeB();
 	public boolean isSane();
 	String getTagRemote();
 	public Vector2 getAnchorOfLocalBody(Vector2 pReuse, IPhysicsAwareEntity pEntity);

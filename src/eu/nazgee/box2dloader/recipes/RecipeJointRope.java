@@ -1,4 +1,4 @@
-package eu.nazgee.box2dloader.stubs;
+package eu.nazgee.box2dloader.recipes;
 
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
@@ -11,15 +11,15 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 
 import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
 
-public class StubJointRope extends StubJoint {
+public class RecipeJointRope extends RecipeJoint {
 
 	private final float mMaxLength;
 
-	public static String getStubTypeName() {
+	public static String getRecipeJointType() {
 		return JOINT_TYPE_ROPE;
 	}
 
-	public StubJointRope(final Attributes pAttributes) {
+	public RecipeJointRope(final Attributes pAttributes) {
 		super(pAttributes);
 		mMaxLength = SAXUtils.getFloatAttribute(pAttributes, ATTRIBUTE_JOINT_ROPE_MAX, 0);
 	}

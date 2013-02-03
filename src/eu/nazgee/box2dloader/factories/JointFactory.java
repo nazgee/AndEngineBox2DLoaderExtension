@@ -7,7 +7,7 @@ import android.util.Log;
 import com.badlogic.gdx.physics.box2d.Joint;
 
 import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
-import eu.nazgee.box2dloader.stubs.IStubJoint;
+import eu.nazgee.box2dloader.recipes.IRecipeJoint;
 
 public class JointFactory implements IJointFactory {
 	protected IJointFactoryListener mListener;
@@ -20,13 +20,13 @@ public class JointFactory implements IJointFactory {
 	}
 
 	@Override
-	public Joint produce(final IStubJoint pJointStub, IPhysicsAwareEntity pStubA, IPhysicsAwareEntity pStubB) {
+	public Joint produce(final IRecipeJoint pJointRecipe, IPhysicsAwareEntity pRecipeA, IPhysicsAwareEntity pRecipeB) {
 
-		if ((pStubA != null) && (pStubB != null)) {
-			final Joint joint = pJointStub.physicalize(mWorld, pStubA, pStubB);
+		if ((pRecipeA != null) && (pRecipeB != null)) {
+			final Joint joint = pJointRecipe.physicalize(mWorld, pRecipeA, pRecipeB);
 			return joint;
 		} else {
-			Log.e(getClass().getSimpleName(), "some bodies are not alive for joint " + pJointStub.getTag());
+			Log.e(getClass().getSimpleName(), "some bodies are not alive for joint " + pJointRecipe.getTag());
 			return null;
 		}
 	}

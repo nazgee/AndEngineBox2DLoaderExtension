@@ -8,26 +8,26 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 import com.badlogic.gdx.physics.box2d.Body;
 
-import eu.nazgee.box2dloader.stubs.IStubBody;
-import eu.nazgee.box2dloader.stubs.IStubEntity;
+import eu.nazgee.box2dloader.recipes.IRecipeBody;
+import eu.nazgee.box2dloader.recipes.IRecipeEntity;
 
 public class PhysicsAwareEntity extends Entity implements IPhysicsAwareEntity {
 
 	private PhysicsConnector mPhysicsConnector;
-	private final IStubEntity mB2DBodyDesc;
+	private final IRecipeEntity mB2DBodyDesc;
 	private Body mBody;
 
-	public PhysicsAwareEntity(final IStubEntity pB2DEntity) {
+	public PhysicsAwareEntity(final IRecipeEntity pB2DEntity) {
 		super();
 		mB2DBodyDesc = pB2DEntity;
 	}
 
-	public PhysicsAwareEntity(final IStubEntity pB2DEntity, final float pX, final float pY, final float pWidth, final float pHeight) {
+	public PhysicsAwareEntity(final IRecipeEntity pB2DEntity, final float pX, final float pY, final float pWidth, final float pHeight) {
 		super(pX, pY, pWidth, pHeight);
 		mB2DBodyDesc = pB2DEntity;
 	}
 
-	public PhysicsAwareEntity(final IStubEntity pB2DEntity, final float pX, final float pY) {
+	public PhysicsAwareEntity(final IRecipeEntity pB2DEntity, final float pX, final float pY) {
 		super(pX, pY);
 		mB2DBodyDesc = pB2DEntity;
 	}
@@ -43,7 +43,7 @@ public class PhysicsAwareEntity extends Entity implements IPhysicsAwareEntity {
 	}
 
 	@Override
-	public IStubEntity getStub() {
+	public IRecipeEntity getRecipe() {
 		return mB2DBodyDesc;
 	}
 
@@ -59,7 +59,7 @@ public class PhysicsAwareEntity extends Entity implements IPhysicsAwareEntity {
 
 	@Override
 	public void dispose(final PhysicsWorld pWorld) {
-		if (getStub() instanceof IStubBody) {
+		if (getRecipe() instanceof IRecipeBody) {
 			pWorld.unregisterPhysicsConnector(mPhysicsConnector);
 			pWorld.destroyBody(mBody);
 			detachSelf();

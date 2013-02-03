@@ -1,4 +1,4 @@
-package eu.nazgee.box2dloader.stubs;
+package eu.nazgee.box2dloader.recipes;
 
 import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.andengine.util.SAXUtils;
@@ -9,10 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import eu.nazgee.box2dloader.Consts;
 import eu.nazgee.box2dloader.entities.IPhysicsAwareEntity;
 
-public abstract class StubJoint extends Stub implements IStubJoint, Consts {
+public abstract class RecipeJoint extends Recipe implements IRecipeJoint, Consts {
 
-	private IStubBody mBodyA;
-	private IStubBody mBodyB;
+	private IRecipeBody mBodyA;
+	private IRecipeBody mBodyB;
 	private final String mTagRemote;
 	private final float mX;
 	private final float mY;
@@ -21,11 +21,11 @@ public abstract class StubJoint extends Stub implements IStubJoint, Consts {
 	private boolean mDeriveRemoteXYfromLocalXY = true;
 	private final boolean mCollideConnected;
 
-	public static String getStubName() {
-		return STUB_JOINT;
+	public static String getRecipeName() {
+		return RECIPE_JOINT;
 	}
 
-	public StubJoint(final Attributes pAttributes) {
+	public RecipeJoint(final Attributes pAttributes) {
 		super(pAttributes);
 
 		mTagRemote = pAttributes.getValue(ATTRIBUTE_JOINT_REMOTE);
@@ -54,22 +54,22 @@ public abstract class StubJoint extends Stub implements IStubJoint, Consts {
 	}
 
 	@Override
-	public void setStubA(final IStubBody pBody) {
+	public void setBodyA(final IRecipeBody pBody) {
 		mBodyA = pBody;
 	}
 
 	@Override
-	public IStubBody getStubA() {
+	public IRecipeBody getRecipeA() {
 		return mBodyA;
 	}
 
 	@Override
-	public void setStubB(final IStubBody pBody) {
+	public void setBodyB(final IRecipeBody pBody) {
 		mBodyB = pBody;
 	}
 
 	@Override
-	public IStubBody getStubB() {
+	public IRecipeBody getRecipeB() {
 		return mBodyB;
 	}
 
