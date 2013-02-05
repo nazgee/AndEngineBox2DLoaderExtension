@@ -17,8 +17,8 @@ class FactoryPhysicalEntityWorker extends FactoryPhysicalWorker {
 
 	@Override
 	public IPhysicalEntity build(IRecipeEntity pRecipe) {
-		RecipeEntity stub = ((RecipeEntity) pRecipe);
-		IPhysicalEntity product = new PhysicalEntity(stub, stub.getX(), stub.getY());
+		RecipeEntity recipe = ((RecipeEntity) pRecipe);
+		IPhysicalEntity product = new PhysicalEntity(recipe, recipe.getX(), recipe.getY());
 		configure(pRecipe, product);
 		return product;
 	}

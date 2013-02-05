@@ -20,8 +20,8 @@ class FactoryPhysicalBodySpriteWorker extends FactoryPhysicalWorker {
 
 	@Override
 	public IPhysicalEntity build(IRecipeEntity pRecipe) {
-		RecipeBodySprite stub = ((RecipeBodySprite) pRecipe);
-		IPhysicalEntity product = new PhysicalSprite(stub, stub.getX(), stub.getY(), mResolver.getTexture(stub.textureName), mVBO);
+		RecipeBodySprite recipe = ((RecipeBodySprite) pRecipe);
+		IPhysicalEntity product = new PhysicalSprite(recipe, recipe.getX(), recipe.getY(), mResolver.getTexture(recipe.textureName), mVBO);
 		configure(pRecipe, product);
 		return product;
 	}

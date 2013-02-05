@@ -44,7 +44,7 @@ public class FactoryRecipe extends FactoryRecipeBase {
 		if (r == null) {
 			Log.e(getClass().getSimpleName(), "some serious trouble when baking " + pLocalName);
 		} else {
-			Log.e(getClass().getSimpleName(), "baked " + pLocalName + "(" + r.getTag() + ")");
+			Log.e(getClass().getSimpleName(), pLocalName + " recipe ready (" + r.getTag() + ")");
 		}
 
 		mRecipesStack.push(r);
@@ -66,6 +66,7 @@ public class FactoryRecipe extends FactoryRecipeBase {
 	@Override
 	public void startDocument() throws SAXException {
 		super.startDocument();
+		mRecipesStack.clear();
 	}
 
 	@Override

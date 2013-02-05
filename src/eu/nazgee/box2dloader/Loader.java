@@ -175,7 +175,7 @@ public class Loader {
 			final IPhysicalEntity pEntityWithoutPhysics,
 			final IFactoryJoint pJointFactory) {
 
-		// prepare a stub-to-body mapping
+		// prepare a recipe-to-body mapping
 		final HashMap<IRecipe, IPhysicalEntity> map = new HashMap<IRecipe, IPhysicalEntity>();
 		pEntityWithoutPhysics.callOnChildren(new IEntityParameterCallable() {
 			@Override
