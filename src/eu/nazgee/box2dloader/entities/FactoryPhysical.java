@@ -12,7 +12,9 @@ public class FactoryPhysical implements IFactoryPhysical {
 		super();
 
 		mWorker = new FactoryPhysicalWorker(pVBO);
+		mWorker.addHelperLast(new FactoryPhysicalTiledSpriteWorker(pResolver, pVBO));
 		mWorker.addHelperLast(new FactoryPhysicalSpriteWorker(pResolver, pVBO));
+		mWorker.addHelperLast(new FactoryPhysicalBodyTiledSpriteWorker(pResolver, pVBO));
 		mWorker.addHelperLast(new FactoryPhysicalBodySpriteWorker(pResolver, pVBO));
 		mWorker.addHelperLast(new FactoryPhysicalEntityWorker(pVBO));
 	}

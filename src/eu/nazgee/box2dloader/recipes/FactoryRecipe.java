@@ -22,8 +22,10 @@ public class FactoryRecipe extends FactoryRecipeBase {
 	public FactoryRecipe() {
 		mWorker.addHelperLast(new FactoryRecipeWorkerEntity(this));
 		mWorker.addHelperLast(new FactoryRecipeWorkerSprite(this));
+		mWorker.addHelperLast(new FactoryRecipeWorkerTiledSprite(this));
 		mWorker.addHelperLast(new FactoryRecipeWorkerBody(this));
 		mWorker.addHelperLast(new FactoryRecipeWorkerBodySprite(this));
+		mWorker.addHelperLast(new FactoryRecipeWorkerBodyTiledSprite(this));
 		mWorker.addHelperLast(new FactoryRecipeWorkerJoint(this,
 				new FactoryRecipeWorkerJointRevolution(this),
 				new FactoryRecipeWorkerJointRope(this)));
